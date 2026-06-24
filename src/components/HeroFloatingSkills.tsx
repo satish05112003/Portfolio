@@ -59,7 +59,7 @@ function SkillBubble({
     animate(dragY, 0, { type: "spring", stiffness: 120, damping: 15, mass: 0.8 });
   };
 
-  // Cursor reaction physics (Shift away when cursor approaches)
+  // Cursor reaction physics (Shift up to 4px max for subtle attraction/repulsion)
   useEffect(() => {
     if (device === "mobile" || shouldReduceMotion) {
       proximityX.set(0);
@@ -81,13 +81,13 @@ function SkillBubble({
       const threshold = 150; // Cursor approach range (150px)
       if (dist < threshold) {
         const factor = 1 - dist / threshold;
-        const force = factor * 8; // Shift up to 8px for subtle elegance
+        const force = factor * 4; // Reduced cursor attraction from 12px -> 4px
         const targetX = -(dx / (dist || 1)) * force;
         const targetY = -(dy / (dist || 1)) * force;
 
         animate(proximityX, targetX, { type: "spring", stiffness: 90, damping: 18 });
         animate(proximityY, targetY, { type: "spring", stiffness: 90, damping: 18 });
-        animate(proximityScale, 1.03, { type: "spring", stiffness: 90, damping: 18 });
+        animate(proximityScale, 1.01, { type: "spring", stiffness: 90, damping: 18 }); // Scale reduced to 1.01
         setIsProximate(true);
       } else {
         animate(proximityX, 0, { type: "spring", stiffness: 60, damping: 15 });
@@ -104,34 +104,35 @@ function SkillBubble({
     };
   }, [device, shouldReduceMotion, isDragging, proximityX, proximityY, proximityScale]);
 
-  // Idle floating animation settings (deterministic to satisfy React purity rules)
+  // Idle floating animation settings (deterministic to preserve pure rendering)
   const idleDuration = getDeterministicFloat(name, 1, 4, 8); // 4s to 8s
   const idleDelay = getDeterministicFloat(name, 2, -8, 0); // Negative offset so they loop asynchronously
 
   // Determine sizes and styling tags by Depth layer
   // Far Layer (0), Middle Layer (1), Front Layer (2)
-  // Adjusted opacity down by 20% per user instructions
+  // Adjusted sizes down 20-40% to keep pill heights strictly within 28px-36px
+  // Adjusted opacity down by 35% per layout guidelines
   const layerStyles = useMemo(() => {
     switch (layer) {
-      case 0: // Far (Small Bubble)
+      case 0: // Far (Small Bubble) - 40% smaller
         return {
-          sizeClass: "text-[10px] py-1 px-2.5",
-          opacity: 0.20, // 0.25 * 0.8
-          blurClass: "backdrop-blur-[1px] blur-[0.3px]",
+          sizeClass: "text-[10px] py-1 px-2.5", // height ~26px
+          opacity: 0.13, // 0.20 * 0.65
+          blurClass: "backdrop-blur-[1px] blur-[0.2px]",
           zIndex: "z-[2]"
         };
-      case 1: // Middle (Medium Bubble)
+      case 1: // Middle (Medium Bubble) - 30% smaller
         return {
-          sizeClass: "text-xs py-1.5 px-3.5",
-          opacity: 0.36, // 0.45 * 0.8
+          sizeClass: "text-[11px] py-1 px-3", // height ~28px
+          opacity: 0.23, // 0.36 * 0.65
           blurClass: "backdrop-blur-md",
           zIndex: "z-[4]"
         };
-      case 2: // Front (Large Bubble)
+      case 2: // Front (Large Bubble) - 20% smaller
       default:
         return {
-          sizeClass: "text-sm py-2 px-4 font-semibold",
-          opacity: 0.56, // 0.70 * 0.8
+          sizeClass: "text-xs py-1.5 px-3.5 font-medium", // height ~32px
+          opacity: 0.36, // 0.56 * 0.65
           blurClass: "backdrop-blur-xl",
           zIndex: "z-[6]"
         };
@@ -152,14 +153,14 @@ function SkillBubble({
   }, [layer, smoothFarY, smoothMidY, smoothFrontY]);
 
   // Dynamic animations matching drag, hover and hover-glow states
-  // Reduced shadow glow values by 40% per user instructions
+  // Faded shadow glow by 50%, borders by 30%, background shadows by 40%
   const borderGlow = isDragging
-    ? "border-[#00698c]/80 shadow-[0_0_12px_rgba(0,105,140,0.3)] bg-[#292823]/35 text-white"
+    ? "border-[#00698c]/55 shadow-[0_0_6px_rgba(0,105,140,0.15)] bg-[#292823]/35 text-white"
     : isHovered
-    ? "border-[#00698c]/50 shadow-[0_0_9px_rgba(0,105,140,0.21)] bg-[#292823]/25 text-white"
+    ? "border-[#00698c]/35 shadow-[0_0_4px_rgba(0,105,140,0.10)] bg-[#292823]/25 text-white"
     : isProximate
-    ? "border-white/20 shadow-[0_0_6px_rgba(0,105,140,0.09)] bg-[#292823]/15 text-[#d7d7d7]/90"
-    : "border-white/10 shadow-none bg-[#292823]/10 text-[#d7d7d7]/80";
+    ? "border-white/14 shadow-[0_0_3px_rgba(0,105,140,0.04)] bg-[#292823]/15 text-[#d7d7d7]/90"
+    : "border-white/7 shadow-none bg-[#292823]/10 text-[#d7d7d7]/80";
 
   return (
     <motion.div
@@ -193,8 +194,8 @@ function SkillBubble({
           shouldReduceMotion || isDragging
             ? {}
             : {
-                y: [0, device === "mobile" ? -1.5 : -4, 0], // Reduced floating amplitude to 4px
-                rotate: [-0.5, 0.5, -0.5], // Subtle rotation
+                y: [0, device === "mobile" ? -0.8 : -2, 0], // Reduced floating distance by 50%
+                rotate: [-0.3, 0.3, -0.3], // Reduced rotation to ±0.3deg
               }
         }
         transition={{
@@ -208,7 +209,7 @@ function SkillBubble({
           borderGlow
         )}
         whileDrag={{ scale: 1.08 }}
-        whileHover={{ scale: 1.03 }} // Hover scale reduced to 1.03
+        whileHover={{ scale: 1.01 }} // Hover scale reduced to 1.01
       >
         {/* Inner glass highlights */}
         <div className="absolute inset-px bg-gradient-to-tr from-white/[0.01] via-white/[0.04] to-transparent rounded-full pointer-events-none" />
@@ -220,36 +221,32 @@ function SkillBubble({
   );
 }
 
-// 18 Core Identity Skills structured by Spatial Clusters and safe-zones
-// Layers represent: 0 = Far/Small, 1 = Middle/Medium, 2 = Front/Large
+// Exactly 12 Visible Bubbles Total (No duplicates, no overlaps)
+// Positional areas map into Safe Zones away from text and the profile photo.
+// Photo boundaries on desktop lie within X: 58-100%, Y: 18-75%.
+// Top Right coordinates (Y: 5-9%) sit completely above the photo.
+// Bottom Right coordinates (Y: 85-94%) sit completely below the photo.
+// Center right is empty. Center-left text zone (X: 0-55%, Y: 20-80%) is clear.
 const skillsData = [
-  // --- TOP LEFT CLUSTER --- (Whitespace above left column text, X: 4-18%, Y: 8-16%)
-  { name: "Python", cluster: "top-left", layer: 1, x: 4, y: 13, mobile: true, tablet: true },
-  { name: "FastAPI", cluster: "top-left", layer: 1, x: 14, y: 16, mobile: false, tablet: true },
-  { name: "C++", cluster: "top-left", layer: 0, x: 8, y: 8, mobile: false, tablet: false },
-  { name: "Embedded Linux", cluster: "top-left", layer: 2, x: 18, y: 10, mobile: true, tablet: true },
+  // --- TOP LEFT AREA --- (Whitespace above left column text, X: 4-22%, Y: 8-14%)
+  { name: "Python", cluster: "top-left", layer: 1, x: 4, y: 14, mobile: true, tablet: true },
+  { name: "FastAPI", cluster: "top-left", layer: 1, x: 22, y: 12, mobile: false, tablet: true },
+  { name: "Embedded Linux", cluster: "top-left", layer: 2, x: 12, y: 8, mobile: true, tablet: true },
 
-  // --- TOP RIGHT CLUSTER --- (Whitespace above right column photo, X: 72-87%, Y: 7-20%)
-  { name: "Generative AI", cluster: "top-right", layer: 2, x: 80, y: 11, mobile: true, tablet: true },
-  { name: "Machine Learning", cluster: "top-right", layer: 2, x: 72, y: 15, mobile: false, tablet: true },
-  { name: "Deep Learning", cluster: "top-right", layer: 1, x: 87, y: 16, mobile: true, tablet: true },
-  { name: "LLMs", cluster: "top-right", layer: 1, x: 76, y: 7, mobile: true, tablet: true },
-  { name: "NLP", cluster: "top-right", layer: 0, x: 82, y: 20, mobile: false, tablet: false },
+  // --- TOP RIGHT AREA --- (Whitespace above right column photo, X: 72-88%, Y: 5-9%)
+  { name: "Generative AI", cluster: "top-right", layer: 2, x: 88, y: 8, mobile: true, tablet: true },
+  { name: "Machine Learning", cluster: "top-right", layer: 2, x: 72, y: 9, mobile: false, tablet: true },
+  { name: "LLMs", cluster: "top-right", layer: 1, x: 80, y: 5, mobile: true, tablet: true },
 
-  // --- CENTER RIGHT CLUSTER --- (Whitespace on far right margin beside photo, X: 91-93%, Y: 42-52%)
-  { name: "AI Agents", cluster: "center-right", layer: 2, x: 91, y: 42, mobile: true, tablet: true },
-  { name: "Next.js", cluster: "center-right", layer: 0, x: 93, y: 52, mobile: false, tablet: false },
+  // --- BOTTOM LEFT AREA --- (Whitespace below left column CTAs, X: 6-20%, Y: 86-88%)
+  { name: "Firmware", cluster: "bottom-left", layer: 1, x: 6, y: 88, mobile: false, tablet: true },
+  { name: "Embedded C", cluster: "bottom-left", layer: 0, x: 20, y: 86, mobile: false, tablet: false },
 
-  // --- BOTTOM LEFT CLUSTER --- (Whitespace below left column CTAs, X: 4-12%, Y: 84-92%)
-  { name: "C", cluster: "bottom-left", layer: 0, x: 4, y: 88, mobile: false, tablet: false },
-  { name: "Embedded C", cluster: "bottom-left", layer: 0, x: 12, y: 92, mobile: false, tablet: true },
-  { name: "Firmware", cluster: "bottom-left", layer: 1, x: 8, y: 84, mobile: false, tablet: true },
-
-  // --- BOTTOM RIGHT CLUSTER --- (Whitespace below right column photo, X: 70-86%, Y: 85-94%)
-  { name: "IoT", cluster: "bottom-right", layer: 0, x: 70, y: 86, mobile: false, tablet: false },
-  { name: "Arduino", cluster: "bottom-right", layer: 0, x: 78, y: 90, mobile: false, tablet: true },
-  { name: "CAN Bus", cluster: "bottom-right", layer: 1, x: 86, y: 85, mobile: false, tablet: true },
-  { name: "Microcontrollers", cluster: "bottom-right", layer: 0, x: 82, y: 94, mobile: false, tablet: false },
+  // --- BOTTOM RIGHT AREA --- (Whitespace below right column photo, X: 65-88%, Y: 85-94%)
+  { name: "IoT", cluster: "bottom-right", layer: 0, x: 65, y: 86, mobile: false, tablet: false },
+  { name: "Arduino", cluster: "bottom-right", layer: 0, x: 75, y: 92, mobile: false, tablet: true },
+  { name: "CAN Bus", cluster: "bottom-right", layer: 1, x: 88, y: 85, mobile: false, tablet: false },
+  { name: "Microcontrollers", cluster: "bottom-right", layer: 0, x: 84, y: 93, mobile: false, tablet: false },
 ];
 
 export default function HeroFloatingSkills() {
@@ -286,7 +283,7 @@ export default function HeroFloatingSkills() {
   }, []);
 
   // Filter skills proportionally:
-  // Desktop: 18 bubbles, Tablet: 12 bubbles (~66%), Mobile: 6 bubbles (~33%)
+  // Desktop: 12 bubbles, Tablet: 8 bubbles (~70%), Mobile: 4 bubbles (~33%)
   const filteredSkills = useMemo(() => {
     return skillsData.filter((skill) => {
       if (device === "mobile") return skill.mobile;
