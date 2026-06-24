@@ -6,7 +6,7 @@ const cleanProjects: ProjectData[] = [
     project_name: "Vehicle Health Monitor",
     description: "Built an Automotive Digital Twin and Vehicle Diagnostics Platform that simulates six ECUs communicating over a virtual CAN Bus. The system provides real-time health monitoring, fault injection, CAN telemetry visualization, safety diagnostics, and an interactive SVG-based vehicle dashboard that visually highlights affected subsystems during failures.",
     tech_stack: ["C", "Embedded Linux", "SocketCAN", "CAN Bus", "Vehicle Diagnostics", "Digital Twin", "Next.js", "React", "TypeScript", "Zustand", "CMake", "CTest"],
-    project_url: "https://github.com/satish05112003/vehicle-health-monitor",
+    project_url: "https://ecu-health-monitor.vercel.app/",
     github_url: "https://github.com/satish05112003/vehicle-health-monitor",
     start_date: null,
     end_date: null,
