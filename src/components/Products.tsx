@@ -871,6 +871,7 @@ function ProductCard({ proj, index }: ProductCardProps) {
 
 export default function Products() {
   const [activeCategory, setActiveCategory] = useState<"embedded" | "software">("software");
+  const [isEmbeddedHovered, setIsEmbeddedHovered] = useState(false);
   const allProjects = portfolioData.projects;
 
   // Resolve projects order dynamically matching JSON properties with fallback parameters
@@ -935,44 +936,6 @@ export default function Products() {
 
       {/* Category Switcher */}
       <div className="flex justify-center mb-16 w-full relative z-20">
-        
-        {/* Recruiter discovery indicator */}
-        {activeCategory === "software" && (
-          <motion.div
-            initial={{ opacity: 0, y: 5 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 5 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="absolute -top-7 sm:-top-9 right-4 sm:right-8 flex items-center gap-1.5 select-none pointer-events-none"
-          >
-            <span className="text-[8px] sm:text-[10px] font-mono text-[#d7d7d7]/70 uppercase tracking-wider">
-              Explore Embedded Systems
-            </span>
-            <motion.svg
-              width="28"
-              height="16"
-              viewBox="0 0 28 16"
-              fill="none"
-              stroke="#00698c"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              animate={{
-                y: [0, 2.5, 0],
-                opacity: [0.6, 1, 0.6]
-              }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-              className="w-5 sm:w-7 h-3 sm:h-4 filter drop-shadow-[0_0_3px_rgba(0,105,140,0.4)]"
-            >
-              <path d="M2 2 C8 2, 20 4, 20 12" strokeDasharray="3,3" />
-              <path d="M16 9 L 20 12 L 23 8" />
-            </motion.svg>
-          </motion.div>
-        )}
 
         <div className="inline-flex flex-col sm:flex-row p-1 bg-[#292823]/15 backdrop-blur-xl border border-white/5 rounded-2xl sm:rounded-full w-full sm:w-auto shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
           <button
@@ -994,24 +957,142 @@ export default function Products() {
             AI, Software & Web3
           </button>
           
-          <button
-            onClick={() => setActiveCategory("embedded")}
-            className={cn(
-              "px-6 py-2.5 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-300 relative select-none cursor-pointer flex justify-center items-center gap-2",
-              activeCategory === "embedded"
-                ? "text-white font-semibold"
-                : "text-[#d7d7d7]/60 hover:text-[#d7d7d7] hover:bg-white/[0.02]"
-            )}
-          >
-            {activeCategory === "embedded" && (
+          <div className="relative inline-flex w-full sm:w-auto justify-center">
+            <button
+              onClick={() => setActiveCategory("embedded")}
+              onMouseEnter={() => setIsEmbeddedHovered(true)}
+              onMouseLeave={() => setIsEmbeddedHovered(false)}
+              className={cn(
+                "w-full px-6 py-2.5 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-300 relative select-none cursor-pointer flex justify-center items-center gap-2",
+                activeCategory === "embedded"
+                  ? "text-white font-semibold"
+                  : "text-[#d7d7d7]/60 hover:text-[#d7d7d7] hover:bg-white/[0.02]"
+              )}
+            >
+              {activeCategory === "embedded" && (
+                <motion.div
+                  layoutId="activeCategoryIndicator"
+                  className="absolute inset-0 bg-[#00698c] rounded-full -z-10 shadow-[0_0_15px_rgba(0,105,140,0.35)]"
+                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                />
+              )}
+              Embedded Systems & Automotive
+            </button>
+            
+            {/* Recruiter discovery indicator */}
+            {activeCategory === "software" && (
               <motion.div
-                layoutId="activeCategoryIndicator"
-                className="absolute inset-0 bg-[#00698c] rounded-full -z-10 shadow-[0_0_15px_rgba(0,105,140,0.35)]"
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-              />
+                initial={{ opacity: 0, scale: 0.9, y: 5 }}
+                animate={{ 
+                  opacity: 1, 
+                  scale: 1, 
+                  y: 0,
+                  transition: { duration: 0.5, ease: "easeOut" }
+                }}
+                exit={{ 
+                  opacity: 0, 
+                  scale: 0.9, 
+                  y: 5,
+                  transition: { duration: 0.3 }
+                }}
+                className="absolute -top-12 sm:-top-14 right-4 sm:-right-8 flex items-center gap-1.5 z-10 pointer-events-none select-none"
+              >
+                <motion.span 
+                  animate={{ 
+                    opacity: isEmbeddedHovered ? 1 : [0.8, 0.95, 0.8] 
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className={cn(
+                    "text-[8px] sm:text-[9.5px] font-mono border backdrop-blur-md px-2.5 py-0.5 rounded-full uppercase tracking-wider transition-all duration-300",
+                    isEmbeddedHovered 
+                      ? "text-white bg-[#292823]/95 border-[#00698c]/75 shadow-[0_0_12px_rgba(0,105,140,0.35)]" 
+                      : "text-[#d7d7d7]/85 bg-[#292823]/80 border-[#00698c]/35 shadow-[0_0_8px_rgba(0,105,140,0.15)]"
+                  )}
+                >
+                  Embedded Portfolio
+                </motion.span>
+                
+                <motion.svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#00698c"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  animate={{
+                    y: [0, -3, 0],
+                    filter: isEmbeddedHovered 
+                      ? "drop-shadow(0 0 8px rgba(0, 105, 140, 0.8))"
+                      : ["drop-shadow(0 0 2px rgba(0, 105, 140, 0.25))", "drop-shadow(0 0 6px rgba(0, 105, 140, 0.55))", "drop-shadow(0 0 2px rgba(0, 105, 140, 0.25))"]
+                  }}
+                  transition={{
+                    y: { duration: 3, repeat: Infinity, ease: "easeInOut" },
+                    filter: isEmbeddedHovered ? { duration: 0.3 } : { duration: 4, repeat: Infinity, ease: "easeInOut" }
+                  }}
+                  className="w-5 sm:w-6 h-5 sm:h-6"
+                >
+                  {/* Background faint path */}
+                  <path
+                    d="M20 4 C15 4, 8 8, 4 18"
+                    stroke="#00698c"
+                    strokeOpacity="0.15"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                  />
+
+                  {/* Draw-on animated main path */}
+                  <motion.path
+                    d="M20 4 C15 4, 8 8, 4 18"
+                    stroke="#00698c"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    custom={isEmbeddedHovered}
+                    variants={{
+                      animate: (hovered) => ({
+                        pathLength: [0, 1, 1, 1, 0],
+                        strokeDashoffset: hovered ? [0, -18, -36] : [0, -12, -24],
+                        transition: {
+                          duration: hovered ? 1.8 : 2.6,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          times: [0, 0.45, 0.85, 0.95, 1]
+                        }
+                      })
+                    }}
+                    animate="animate"
+                  />
+
+                  {/* Animated Arrowhead */}
+                  <motion.path
+                    d="M3 13 L 4 18 L 9 17"
+                    stroke="#00698c"
+                    strokeWidth="1.75"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    custom={isEmbeddedHovered}
+                    variants={{
+                      animate: (hovered) => ({
+                        opacity: [0, 0, 1, 1, 0],
+                        transition: {
+                          duration: hovered ? 1.8 : 2.6,
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          times: [0, 0.42, 0.46, 0.95, 1]
+                        }
+                      })
+                    }}
+                    animate="animate"
+                  />
+                </motion.svg>
+              </motion.div>
             )}
-            Embedded Systems & Automotive
-          </button>
+          </div>
         </div>
       </div>
 
