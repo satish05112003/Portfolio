@@ -870,7 +870,7 @@ function ProductCard({ proj, index }: ProductCardProps) {
 }
 
 export default function Products() {
-  const [activeCategory, setActiveCategory] = useState<"embedded" | "software">("embedded");
+  const [activeCategory, setActiveCategory] = useState<"embedded" | "software">("software");
   const allProjects = portfolioData.projects;
 
   // Resolve projects order dynamically matching JSON properties with fallback parameters
@@ -935,25 +935,46 @@ export default function Products() {
 
       {/* Category Switcher */}
       <div className="flex justify-center mb-16 w-full relative z-20">
-        <div className="inline-flex flex-col sm:flex-row p-1 bg-[#292823]/15 backdrop-blur-xl border border-white/5 rounded-2xl sm:rounded-full w-full sm:w-auto shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-          <button
-            onClick={() => setActiveCategory("embedded")}
-            className={cn(
-              "px-6 py-2.5 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-300 relative select-none cursor-pointer flex justify-center items-center gap-2",
-              activeCategory === "embedded"
-                ? "text-white font-semibold"
-                : "text-[#d7d7d7]/60 hover:text-[#d7d7d7] hover:bg-white/[0.02]"
-            )}
+        
+        {/* Recruiter discovery indicator */}
+        {activeCategory === "software" && (
+          <motion.div
+            initial={{ opacity: 0, y: 5 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 5 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="absolute -top-7 sm:-top-9 right-4 sm:right-8 flex items-center gap-1.5 select-none pointer-events-none"
           >
-            {activeCategory === "embedded" && (
-              <motion.div
-                layoutId="activeCategoryIndicator"
-                className="absolute inset-0 bg-[#00698c] rounded-full -z-10 shadow-[0_0_15px_rgba(0,105,140,0.35)]"
-                transition={{ type: "spring", stiffness: 380, damping: 30 }}
-              />
-            )}
-            Embedded Systems & Automotive
-          </button>
+            <span className="text-[8px] sm:text-[10px] font-mono text-[#d7d7d7]/70 uppercase tracking-wider">
+              Explore Embedded Systems
+            </span>
+            <motion.svg
+              width="28"
+              height="16"
+              viewBox="0 0 28 16"
+              fill="none"
+              stroke="#00698c"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              animate={{
+                y: [0, 2.5, 0],
+                opacity: [0.6, 1, 0.6]
+              }}
+              transition={{
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="w-5 sm:w-7 h-3 sm:h-4 filter drop-shadow-[0_0_3px_rgba(0,105,140,0.4)]"
+            >
+              <path d="M2 2 C8 2, 20 4, 20 12" strokeDasharray="3,3" />
+              <path d="M16 9 L 20 12 L 23 8" />
+            </motion.svg>
+          </motion.div>
+        )}
+
+        <div className="inline-flex flex-col sm:flex-row p-1 bg-[#292823]/15 backdrop-blur-xl border border-white/5 rounded-2xl sm:rounded-full w-full sm:w-auto shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
           <button
             onClick={() => setActiveCategory("software")}
             className={cn(
@@ -972,6 +993,25 @@ export default function Products() {
             )}
             AI, Software & Web3
           </button>
+          
+          <button
+            onClick={() => setActiveCategory("embedded")}
+            className={cn(
+              "px-6 py-2.5 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-300 relative select-none cursor-pointer flex justify-center items-center gap-2",
+              activeCategory === "embedded"
+                ? "text-white font-semibold"
+                : "text-[#d7d7d7]/60 hover:text-[#d7d7d7] hover:bg-white/[0.02]"
+            )}
+          >
+            {activeCategory === "embedded" && (
+              <motion.div
+                layoutId="activeCategoryIndicator"
+                className="absolute inset-0 bg-[#00698c] rounded-full -z-10 shadow-[0_0_15px_rgba(0,105,140,0.35)]"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+            Embedded Systems & Automotive
+          </button>
         </div>
       </div>
 
@@ -983,9 +1023,14 @@ export default function Products() {
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className="relative flex flex-col w-full pb-20"
       >
-        {filteredProjects.map((proj: any, idx: number) => (
-          <ProductCard key={proj.id} proj={proj} index={idx} />
-        ))}
+        {filteredProjects.map((proj: any, idx: number) => {
+          const formattedCategoryIndex = String(idx + 1).padStart(2, "0");
+          const categoryProj = {
+            ...proj,
+            formattedIndex: formattedCategoryIndex
+          };
+          return <ProductCard key={categoryProj.id} proj={categoryProj} index={idx} />;
+        })}
       </motion.div>
 
     </section>
