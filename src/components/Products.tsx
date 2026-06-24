@@ -6,7 +6,7 @@ import { GlassCard } from "./ui/GlassCard";
 import TechBadge from "./ui/TechBadge";
 import Counter from "./ui/Counter";
 import { portfolioData } from "@/utils/dataParser";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion, AnimatePresence } from "motion/react";
 import { cn } from "@/utils/cn";
 import {
   GithubLogo,
@@ -980,136 +980,236 @@ export default function Products() {
             </button>
             
             {/* Recruiter discovery indicator */}
-            {activeCategory === "software" && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9, y: 15, filter: "blur(4px)" }}
-                animate={{ 
-                  opacity: 1, 
-                  scale: 1, 
-                  y: 0,
-                  filter: "blur(0px)",
-                  transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
-                }}
-                exit={{ 
-                  opacity: 0, 
-                  scale: 0.8, 
-                  y: 15,
-                  filter: "blur(6px)",
-                  transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
-                }}
-                className="absolute -top-[95px] sm:-top-[115px] left-1/2 -translate-x-1/2 flex flex-col items-center pointer-events-none select-none z-10 w-[200px]"
-              >
-                <motion.span 
+            <AnimatePresence>
+              {activeCategory === "software" && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9, y: 15, filter: "blur(4px)" }}
                   animate={{ 
-                    opacity: isEmbeddedHovered ? 1 : [0.75, 0.9, 0.75] 
+                    opacity: 1, 
+                    scale: 1, 
+                    y: 0,
+                    filter: "blur(0px)",
+                    transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] }
                   }}
-                  transition={{
-                    duration: 3.5,
-                    repeat: Infinity,
-                    ease: "easeInOut"
+                  exit={{ 
+                    opacity: 0, 
+                    scale: 0.8, 
+                    y: 15,
+                    filter: "blur(6px)",
+                    transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
                   }}
-                  className="text-[8px] sm:text-[9.5px] font-mono tracking-[0.25em] text-[#00698c] uppercase text-center font-bold"
+                  className="absolute -top-[105px] md:-top-[115px] lg:-top-[125px] left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:-right-4 lg:-right-[110px] flex flex-col items-center md:items-start pointer-events-none select-none z-10 w-[180px] md:w-[220px] lg:w-[240px] scale-75 md:scale-90 lg:scale-100"
                 >
-                  AUTOMOTIVE & EMBEDDED PROJECTS
-                </motion.span>
-                
-                <motion.svg
-                  width="150"
-                  height="70"
-                  viewBox="0 0 150 70"
-                  fill="none"
-                  stroke="#00698c"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  animate={{
-                    y: [0, -4, 0],
-                    filter: isEmbeddedHovered 
-                      ? "drop-shadow(0 0 12px rgba(0, 105, 140, 0.85))"
-                      : ["drop-shadow(0 0 3px rgba(0, 105, 140, 0.3))", "drop-shadow(0 0 8px rgba(0, 105, 140, 0.6))", "drop-shadow(0 0 3px rgba(0, 105, 140, 0.3))"]
-                  }}
-                  transition={{
-                    y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
-                    filter: isEmbeddedHovered ? { duration: 0.3 } : { duration: 3.5, repeat: Infinity, ease: "easeInOut" }
-                  }}
-                  className="w-32 sm:w-[150px] h-[60px] sm:h-[70px] mt-1.5"
-                >
-                  {/* Background faint path */}
-                  <path
-                    d="M 75 5 C 115 5, 115 35, 75 62"
+                  <motion.span 
+                    animate={{ 
+                      opacity: isEmbeddedHovered ? 1 : [0.75, 0.9, 0.75] 
+                    }}
+                    transition={{
+                      duration: 3.5,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    className="text-[8px] sm:text-[9.5px] font-mono tracking-[0.2em] text-[#00698c] uppercase text-center md:text-left font-bold whitespace-nowrap"
+                  >
+                    EMBEDDED PROJECTS AVAILABLE
+                  </motion.span>
+                  
+                  {/* Large diagonal arrow for tablet/desktop */}
+                  <motion.svg
+                    width="200"
+                    height="110"
+                    viewBox="0 0 200 110"
+                    fill="none"
                     stroke="#00698c"
-                    strokeOpacity="0.12"
                     strokeWidth="1.5"
-                  />
-
-                  {/* Traveling light pulse path */}
-                  <motion.path
-                    d="M 75 5 C 115 5, 115 35, 75 62"
-                    stroke="#00698c"
-                    strokeWidth="3.5"
-                    strokeOpacity="0.8"
-                    strokeLinecap="round"
-                    style={{ filter: "blur(2px)" }}
-                    custom={isEmbeddedHovered}
-                    variants={{
-                      animate: (hovered) => ({
-                        pathLength: 0.25,
-                        pathOffset: [0, 1.2],
-                        transition: {
-                          duration: hovered ? 1.2 : 2.0,
-                          repeat: Infinity,
-                          ease: "linear"
-                        }
-                      })
-                    }}
-                    animate="animate"
-                  />
-
-                  {/* Draw-on animated main path */}
-                  <motion.path
-                    d="M 75 5 C 115 5, 115 35, 75 62"
-                    stroke="#00698c"
-                    strokeWidth="1.75"
-                    custom={isEmbeddedHovered}
-                    variants={{
-                      animate: (hovered) => ({
-                        pathLength: [0, 1, 1, 1, 0],
-                        strokeDashoffset: hovered ? [0, -22, -44] : [0, -15, -30],
-                        transition: {
-                          duration: hovered ? 1.6 : 2.4,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                          times: [0, 0.45, 0.85, 0.95, 1]
-                        }
-                      })
-                    }}
-                    animate="animate"
-                  />
-
-                  {/* Animated Arrowhead */}
-                  <motion.path
-                    d="M 68 53 L 75 62 L 83 58"
-                    stroke="#00698c"
-                    strokeWidth="1.75"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    custom={isEmbeddedHovered}
-                    variants={{
-                      animate: (hovered) => ({
-                        opacity: [0, 0, 1, 1, 0],
-                        transition: {
-                          duration: hovered ? 1.6 : 2.4,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                          times: [0, 0.42, 0.46, 0.95, 1]
+                    animate={{
+                      y: [0, -4, 0],
+                      filter: isEmbeddedHovered 
+                        ? "drop-shadow(0 0 12px rgba(0, 105, 140, 0.85))"
+                        : ["drop-shadow(0 0 3px rgba(0, 105, 140, 0.3))", "drop-shadow(0 0 8px rgba(0, 105, 140, 0.6))", "drop-shadow(0 0 3px rgba(0, 105, 140, 0.3))"]
+                    }}
+                    transition={{
+                      y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                      filter: isEmbeddedHovered ? { duration: 0.3 } : { duration: 3.5, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                    className="hidden md:block w-[180px] lg:w-[200px] h-[100px] lg:h-[110px] mt-1.5"
+                  >
+                    {/* Background faint path */}
+                    <path
+                      d="M 180 15 C 130 15, 60 45, 15 105"
+                      stroke="#00698c"
+                      strokeOpacity="0.12"
+                      strokeWidth="1.5"
+                    />
+
+                    {/* Traveling light pulse path */}
+                    <motion.path
+                      d="M 180 15 C 130 15, 60 45, 15 105"
+                      stroke="#00698c"
+                      strokeWidth="3.5"
+                      strokeOpacity="0.8"
+                      strokeLinecap="round"
+                      style={{ filter: "blur(2px)" }}
+                      custom={isEmbeddedHovered}
+                      variants={{
+                        animate: (hovered) => ({
+                          pathLength: 0.25,
+                          pathOffset: [0, 1.2],
+                          transition: {
+                            duration: hovered ? 1.4 : 2.2,
+                            repeat: Infinity,
+                            ease: "linear"
+                          }
+                        })
+                      }}
+                      animate="animate"
+                    />
+
+                    {/* Draw-on animated main path */}
+                    <motion.path
+                      d="M 180 15 C 130 15, 60 45, 15 105"
+                      stroke="#00698c"
+                      strokeWidth="1.75"
+                      custom={isEmbeddedHovered}
+                      variants={{
+                        animate: (hovered) => ({
+                          pathLength: [0, 1, 1, 1, 0],
+                          strokeDashoffset: hovered ? [0, -22, -44] : [0, -15, -30],
+                          transition: {
+                            duration: hovered ? 1.8 : 2.6,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            times: [0, 0.45, 0.85, 0.95, 1]
+                          }
+                        })
+                      }}
+                      animate="animate"
+                    />
+
+                    {/* Animated Arrowhead */}
+                    <motion.path
+                      d="M 8 92 L 15 105 L 28 101"
+                      stroke="#00698c"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      custom={isEmbeddedHovered}
+                      variants={{
+                        animate: (hovered) => ({
+                          opacity: [0, 0, 1, 1, 0],
+                          transition: {
+                            duration: hovered ? 1.8 : 2.6,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            times: [0, 0.42, 0.46, 0.95, 1]
                         }
                       })
                     }}
                     animate="animate"
                   />
-                </motion.svg>
-              </motion.div>
-            )}
+                  </motion.svg>
+
+                  {/* Small vertical/curved arrow for mobile */}
+                  <motion.svg
+                    width="60"
+                    height="40"
+                    viewBox="0 0 60 40"
+                    fill="none"
+                    stroke="#00698c"
+                    strokeWidth="1.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    animate={{
+                      y: [0, -3, 0],
+                      filter: isEmbeddedHovered 
+                        ? "drop-shadow(0 0 8px rgba(0, 105, 140, 0.8))"
+                        : ["drop-shadow(0 0 2px rgba(0, 105, 140, 0.25))", "drop-shadow(0 0 6px rgba(0, 105, 140, 0.55))", "drop-shadow(0 0 2px rgba(0, 105, 140, 0.25))"]
+                    }}
+                    transition={{
+                      y: { duration: 4, repeat: Infinity, ease: "easeInOut" },
+                      filter: isEmbeddedHovered ? { duration: 0.3 } : { duration: 3.5, repeat: Infinity, ease: "easeInOut" }
+                    }}
+                    className="block md:hidden w-[60px] h-[40px] mt-1"
+                  >
+                    {/* Background faint path */}
+                    <path
+                      d="M 30 2 C 45 2, 45 18, 30 32"
+                      stroke="#00698c"
+                      strokeOpacity="0.12"
+                      strokeWidth="1.5"
+                    />
+
+                    {/* Traveling light pulse path */}
+                    <motion.path
+                      d="M 30 2 C 45 2, 45 18, 30 32"
+                      stroke="#00698c"
+                      strokeWidth="3.5"
+                      strokeOpacity="0.8"
+                      strokeLinecap="round"
+                      style={{ filter: "blur(2px)" }}
+                      custom={isEmbeddedHovered}
+                      variants={{
+                        animate: (hovered) => ({
+                          pathLength: 0.25,
+                          pathOffset: [0, 1.2],
+                          transition: {
+                            duration: hovered ? 1.2 : 2.0,
+                            repeat: Infinity,
+                            ease: "linear"
+                          }
+                        })
+                      }}
+                      animate="animate"
+                    />
+
+                    {/* Draw-on animated main path */}
+                    <motion.path
+                      d="M 30 2 C 45 2, 45 18, 30 32"
+                      stroke="#00698c"
+                      strokeWidth="1.75"
+                      custom={isEmbeddedHovered}
+                      variants={{
+                        animate: (hovered) => ({
+                          pathLength: [0, 1, 1, 1, 0],
+                          strokeDashoffset: hovered ? [0, -10, -20] : [0, -8, -16],
+                          transition: {
+                            duration: hovered ? 1.6 : 2.4,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            times: [0, 0.45, 0.85, 0.95, 1]
+                          }
+                        })
+                      }}
+                      animate="animate"
+                    />
+
+                    {/* Animated Arrowhead */}
+                    <motion.path
+                      d="M 23 25 L 30 32 L 37 25"
+                      stroke="#00698c"
+                      strokeWidth="1.75"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      custom={isEmbeddedHovered}
+                      variants={{
+                        animate: (hovered) => ({
+                          opacity: [0, 0, 1, 1, 0],
+                          transition: {
+                            duration: hovered ? 1.6 : 2.4,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            times: [0, 0.42, 0.46, 0.95, 1]
+                          }
+                        })
+                      }}
+                      animate="animate"
+                    />
+                  </motion.svg>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
