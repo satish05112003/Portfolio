@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { GlassCard } from "./ui/GlassCard";
 import TechBadge from "./ui/TechBadge";
 import Counter from "./ui/Counter";
@@ -29,6 +29,7 @@ import {
 const projectMatchOrder = [
   {
     name: "Vehicle Health Monitor",
+    category: "embedded",
     iconType: "car",
     problemSolved: "Simulating and diagnosing faults across multiple vehicle ECUs is difficult without access to real automotive hardware and CAN networks.",
     features: [
@@ -41,6 +42,7 @@ const projectMatchOrder = [
   },
   {
     name: "Polymarket AI Trading Agent",
+    category: "software",
     iconType: "robot",
     problemSolved: "High latency and prediction inaccuracy in high-frequency directional price betting markets.",
     features: [
@@ -53,6 +55,7 @@ const projectMatchOrder = [
   },
   {
     name: "Smart Assistive Stick",
+    category: "embedded",
     iconType: "cpu",
     problemSolved: "Lack of affordable, real-time navigation assistance and safety telemetry tracking for visually impaired individuals.",
     features: [
@@ -65,6 +68,7 @@ const projectMatchOrder = [
   },
   {
     name: "AI-Based Hate Speech and Abusive Language Detection",
+    category: "software",
     iconType: "shield",
     problemSolved: "Delayed, server-side comment moderation on social media platforms leading to cyberbullying exposure.",
     features: [
@@ -77,6 +81,7 @@ const projectMatchOrder = [
   },
   {
     name: "Environment Safety Alert System",
+    category: "embedded",
     iconType: "bell",
     problemSolved: "Delayed local alerting for hazardous industrial gas leaks, fire, and thermal conditions.",
     features: [
@@ -89,6 +94,7 @@ const projectMatchOrder = [
   },
   {
     name: "Multi-Elevator Scheduling System",
+    category: "embedded",
     iconType: "arrows",
     problemSolved: "Elevator uncoordination and wait-time bottlenecks in commercial buildings.",
     features: [
@@ -101,6 +107,7 @@ const projectMatchOrder = [
   },
   {
     name: "PharosPay",
+    category: "software",
     iconType: "wallet",
     problemSolved: "High settlement costs and lack of secure automated routing for merchant payments on-chain.",
     features: [
@@ -113,6 +120,7 @@ const projectMatchOrder = [
   },
   {
     name: "PharosMarket",
+    category: "software",
     iconType: "chart",
     problemSolved: "Centralized execution, high fees, and lack of transparency in standard betting platforms.",
     features: [
@@ -125,6 +133,7 @@ const projectMatchOrder = [
   },
   {
     name: "EVM Wallet Reputation & Risk Analyzer",
+    category: "software",
     iconType: "key",
     problemSolved: "Difficult and slow verification of wallet risk signals and reputation scores for Web3 users.",
     features: [
@@ -137,6 +146,7 @@ const projectMatchOrder = [
   },
   {
     name: "Arduino Traffic Light System",
+    category: "embedded",
     iconType: "traffic",
     problemSolved: "Fixed traffic signal cycles causing unnecessary wait delays for crossing pedestrians.",
     features: [
@@ -149,6 +159,7 @@ const projectMatchOrder = [
   },
   {
     name: "Empathy Engine",
+    category: "software",
     iconType: "speaker",
     problemSolved: "Robotic, monotonal, and detached synthetic speech outputs in client applications.",
     features: [
@@ -161,6 +172,7 @@ const projectMatchOrder = [
   },
   {
     name: "Pitch Visualizer",
+    category: "software",
     iconType: "image",
     problemSolved: "Manual, time-consuming storyboard creation for text pitch presentations.",
     features: [
@@ -173,6 +185,7 @@ const projectMatchOrder = [
   },
   {
     name: "Scaled Dot-Product Attention from Scratch",
+    category: "software",
     iconType: "brackets",
     problemSolved: "Black-box understanding of transformer and large language model attention mechanisms.",
     features: [
@@ -846,7 +859,7 @@ function ProductCard({ proj, index }: ProductCardProps) {
                 isOdd ? "lg:order-1" : "lg:order-2"
               )}
             >
-              <ProjectDiagram index={index} />
+              <ProjectDiagram index={proj.originalIndex} />
             </motion.div>
 
           </div>
@@ -857,6 +870,7 @@ function ProductCard({ proj, index }: ProductCardProps) {
 }
 
 export default function Products() {
+  const [activeCategory, setActiveCategory] = useState<"embedded" | "software">("embedded");
   const allProjects = portfolioData.projects;
 
   // Resolve projects order dynamically matching JSON properties with fallback parameters
@@ -896,17 +910,21 @@ export default function Products() {
       features: matchItem.features,
       impact: matchItem.impact,
       iconType: matchItem.iconType,
+      category: matchItem.category,
       formattedIndex,
       metricValue: metric.value,
-      metricLabel: metric.label
+      metricLabel: metric.label,
+      originalIndex: index
     };
   });
+
+  const filteredProjects = resolvedProjects.filter((p: any) => p.category === activeCategory);
 
   return (
     <section id="projects" className="py-24 px-4 md:px-8 max-w-7xl mx-auto border-t border-white/5">
       
       {/* Section Header */}
-      <div className="flex flex-col mb-20 max-w-[65ch]">
+      <div className="flex flex-col mb-12 max-w-[65ch]">
         <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white mb-4">
           Products & Engineering Systems
         </h2>
@@ -915,12 +933,60 @@ export default function Products() {
         </p>
       </div>
 
-      {/* Sticky Scroll Stack of all 12 Projects */}
-      <div className="relative flex flex-col w-full pb-20">
-        {resolvedProjects.map((proj: any, index: number) => (
-          <ProductCard key={proj.id} proj={proj} index={index} />
-        ))}
+      {/* Category Switcher */}
+      <div className="flex justify-center mb-16 w-full relative z-20">
+        <div className="inline-flex flex-col sm:flex-row p-1 bg-[#292823]/15 backdrop-blur-xl border border-white/5 rounded-2xl sm:rounded-full w-full sm:w-auto shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+          <button
+            onClick={() => setActiveCategory("embedded")}
+            className={cn(
+              "px-6 py-2.5 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-300 relative select-none cursor-pointer flex justify-center items-center gap-2",
+              activeCategory === "embedded"
+                ? "text-white font-semibold"
+                : "text-[#d7d7d7]/60 hover:text-[#d7d7d7] hover:bg-white/[0.02]"
+            )}
+          >
+            {activeCategory === "embedded" && (
+              <motion.div
+                layoutId="activeCategoryIndicator"
+                className="absolute inset-0 bg-[#00698c] rounded-full -z-10 shadow-[0_0_15px_rgba(0,105,140,0.35)]"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+            Embedded Systems & Automotive
+          </button>
+          <button
+            onClick={() => setActiveCategory("software")}
+            className={cn(
+              "px-6 py-2.5 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-300 relative select-none cursor-pointer flex justify-center items-center gap-2",
+              activeCategory === "software"
+                ? "text-white font-semibold"
+                : "text-[#d7d7d7]/60 hover:text-[#d7d7d7] hover:bg-white/[0.02]"
+            )}
+          >
+            {activeCategory === "software" && (
+              <motion.div
+                layoutId="activeCategoryIndicator"
+                className="absolute inset-0 bg-[#00698c] rounded-full -z-10 shadow-[0_0_15px_rgba(0,105,140,0.35)]"
+                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              />
+            )}
+            AI, Software & Web3
+          </button>
+        </div>
       </div>
+
+      {/* Sticky Scroll Stack of Projects */}
+      <motion.div
+        key={activeCategory}
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+        className="relative flex flex-col w-full pb-20"
+      >
+        {filteredProjects.map((proj: any, idx: number) => (
+          <ProductCard key={proj.id} proj={proj} index={idx} />
+        ))}
+      </motion.div>
 
     </section>
   );
