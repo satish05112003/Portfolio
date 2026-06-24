@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, useMotionValue, useMotionTemplate, useReducedMotion, useScroll, useTransform, useSpring } from "motion/react";
 import { MagneticButton } from "./ui/MagneticButton";
 import { ArrowRight, SealCheck } from "@phosphor-icons/react";
+import HeroFloatingSkills from "./HeroFloatingSkills";
 
 // Professional photo location
 const PROFILE_PHOTO_PATH = "/profile_photo.jpg";
@@ -41,20 +42,7 @@ export default function Hero() {
     mouseY.set(clientY - top);
   }
 
-  // Fallback info mappings
-  const leftRoles = [
-    "AI Engineer",
-    "Embedded Systems Engineer",
-    "IOT",
-    "Firmware Developer",
-  ];
-
-  const rightRoles = [
-    "Generative AI Developer",
-    "AI/ML",
-    "Full Stack Developer",
-    "Web3 Builder",
-  ];
+  // Fallback info mappings removed in favor of background floating skills ecosystem
 
   return (
     <section
@@ -98,6 +86,7 @@ export default function Hero() {
           transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 1 }}
           className="absolute bottom-[10%] left-[5%] w-[500px] h-[500px] rounded-full bg-[#292823]/45 filter blur-[120px]"
         />
+        <HeroFloatingSkills />
       </div>
 
       {/* 2. Mouse-Reactive Radial lighting mask */}
@@ -217,45 +206,7 @@ export default function Hero() {
             </span>
           </h1>
 
-          {/* Premium Glassmorphic Role Pills */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 mb-5 max-w-[550px] w-full">
-            {/* Left Column */}
-            <div className="flex flex-col gap-2">
-              {leftRoles.map((role, index) => (
-                <motion.div
-                  key={role}
-                  initial={shouldReduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.35 + index * 0.08,
-                    ease: [0.16, 1, 0.3, 1] as const
-                  }}
-                  className="w-full sm:w-fit px-3.5 py-1.5 rounded-full text-xs font-mono border border-white/10 bg-[#292823]/15 backdrop-blur-xl text-[#d7d7d7]/85 hover:border-[#00698c]/50 hover:text-white hover:bg-[#00698c]/10 hover:shadow-[0_0_15px_rgba(0,105,140,0.35)] transition-all duration-300 ease-out cursor-default flex items-center justify-center sm:justify-start"
-                >
-                  {role}
-                </motion.div>
-              ))}
-            </div>
-            {/* Right Column */}
-            <div className="flex flex-col gap-2">
-              {rightRoles.map((role, index) => (
-                <motion.div
-                  key={role}
-                  initial={shouldReduceMotion ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9, y: 10 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  transition={{
-                    duration: 0.6,
-                    delay: 0.35 + (index + 4) * 0.08,
-                    ease: [0.16, 1, 0.3, 1] as const
-                  }}
-                  className="w-full sm:w-fit px-3.5 py-1.5 rounded-full text-xs font-mono border border-white/10 bg-[#292823]/15 backdrop-blur-xl text-[#d7d7d7]/85 hover:border-[#00698c]/50 hover:text-white hover:bg-[#00698c]/10 hover:shadow-[0_0_15px_rgba(0,105,140,0.35)] transition-all duration-300 ease-out cursor-default flex items-center justify-center sm:justify-start"
-                >
-                  {role}
-                </motion.div>
-              ))}
-            </div>
-          </div>
+          {/* Reclaimed role pills space */}
 
           {/* Concise intro copy */}
           <p className="text-sm md:text-base text-[#d7d7d7]/85 font-light leading-relaxed mb-4 max-w-[55ch]">
