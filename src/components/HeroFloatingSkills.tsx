@@ -81,7 +81,7 @@ function SkillBubble({
       const threshold = 150; // Cursor approach range (150px)
       if (dist < threshold) {
         const factor = 1 - dist / threshold;
-        const force = factor * 12; // Shift up to 12px
+        const force = factor * 8; // Shift up to 8px for subtle elegance
         const targetX = -(dx / (dist || 1)) * force;
         const targetY = -(dy / (dist || 1)) * force;
 
@@ -110,27 +110,28 @@ function SkillBubble({
 
   // Determine sizes and styling tags by Depth layer
   // Far Layer (0), Middle Layer (1), Front Layer (2)
+  // Adjusted opacity down by 20% per user instructions
   const layerStyles = useMemo(() => {
     switch (layer) {
-      case 0: // Far
+      case 0: // Far (Small Bubble)
         return {
           sizeClass: "text-[10px] py-1 px-2.5",
-          opacity: 0.25,
-          blurClass: "backdrop-blur-[2px] blur-[0.5px]",
+          opacity: 0.20, // 0.25 * 0.8
+          blurClass: "backdrop-blur-[1px] blur-[0.3px]",
           zIndex: "z-[2]"
         };
-      case 1: // Middle
+      case 1: // Middle (Medium Bubble)
         return {
           sizeClass: "text-xs py-1.5 px-3.5",
-          opacity: 0.48,
+          opacity: 0.36, // 0.45 * 0.8
           blurClass: "backdrop-blur-md",
           zIndex: "z-[4]"
         };
-      case 2: // Front
+      case 2: // Front (Large Bubble)
       default:
         return {
           sizeClass: "text-sm py-2 px-4 font-semibold",
-          opacity: 0.72,
+          opacity: 0.56, // 0.70 * 0.8
           blurClass: "backdrop-blur-xl",
           zIndex: "z-[6]"
         };
@@ -151,12 +152,13 @@ function SkillBubble({
   }, [layer, smoothFarY, smoothMidY, smoothFrontY]);
 
   // Dynamic animations matching drag, hover and hover-glow states
+  // Reduced shadow glow values by 40% per user instructions
   const borderGlow = isDragging
-    ? "border-[#00698c]/80 shadow-[0_0_20px_rgba(0,105,140,0.5)] bg-[#292823]/35 text-white"
+    ? "border-[#00698c]/80 shadow-[0_0_12px_rgba(0,105,140,0.3)] bg-[#292823]/35 text-white"
     : isHovered
-    ? "border-[#00698c]/50 shadow-[0_0_15px_rgba(0,105,140,0.35)] bg-[#292823]/25 text-white"
+    ? "border-[#00698c]/50 shadow-[0_0_9px_rgba(0,105,140,0.21)] bg-[#292823]/25 text-white"
     : isProximate
-    ? "border-white/20 shadow-[0_0_10px_rgba(0,105,140,0.15)] bg-[#292823]/15 text-[#d7d7d7]/90"
+    ? "border-white/20 shadow-[0_0_6px_rgba(0,105,140,0.09)] bg-[#292823]/15 text-[#d7d7d7]/90"
     : "border-white/10 shadow-none bg-[#292823]/10 text-[#d7d7d7]/80";
 
   return (
@@ -191,8 +193,8 @@ function SkillBubble({
           shouldReduceMotion || isDragging
             ? {}
             : {
-                y: [0, device === "mobile" ? -3 : -6, 0],
-                rotate: [-0.8, 0.8, -0.8],
+                y: [0, device === "mobile" ? -1.5 : -4, 0], // Reduced floating amplitude to 4px
+                rotate: [-0.5, 0.5, -0.5], // Subtle rotation
               }
         }
         transition={{
@@ -206,7 +208,7 @@ function SkillBubble({
           borderGlow
         )}
         whileDrag={{ scale: 1.08 }}
-        whileHover={{ scale: 1.05 }}
+        whileHover={{ scale: 1.03 }} // Hover scale reduced to 1.03
       >
         {/* Inner glass highlights */}
         <div className="absolute inset-px bg-gradient-to-tr from-white/[0.01] via-white/[0.04] to-transparent rounded-full pointer-events-none" />
@@ -218,82 +220,50 @@ function SkillBubble({
   );
 }
 
-// 48 Skills arranged by Spatial Clusters
+// 18 Core Identity Skills structured by Spatial Clusters and safe-zones
+// Layers represent: 0 = Far/Small, 1 = Middle/Medium, 2 = Front/Large
 const skillsData = [
-  // --- TOP LEFT CLUSTER ---
-  { name: "Python", cluster: "top-left", layer: 2, x: 5, y: 13, mobile: true, tablet: true },
-  { name: "FastAPI", cluster: "top-left", layer: 1, x: 15, y: 15, mobile: false, tablet: true },
-  { name: "Git", cluster: "top-left", layer: 0, x: 9, y: 21, mobile: true, tablet: true },
-  { name: "Docker", cluster: "top-left", layer: 1, x: 4, y: 19, mobile: false, tablet: true },
-  { name: "Linux", cluster: "top-left", layer: 0, x: 12, y: 11, mobile: false, tablet: true },
-  { name: "Embedded Linux", cluster: "top-left", layer: 2, x: 18, y: 17, mobile: true, tablet: true },
-  { name: "C++", cluster: "top-left", layer: 1, x: 7, y: 9, mobile: false, tablet: false },
-  { name: "GitHub", cluster: "top-left", layer: 0, x: 16, y: 8, mobile: false, tablet: false },
+  // --- TOP LEFT CLUSTER --- (Whitespace above left column text, X: 4-18%, Y: 8-16%)
+  { name: "Python", cluster: "top-left", layer: 1, x: 4, y: 13, mobile: true, tablet: true },
+  { name: "FastAPI", cluster: "top-left", layer: 1, x: 14, y: 16, mobile: false, tablet: true },
+  { name: "C++", cluster: "top-left", layer: 0, x: 8, y: 8, mobile: false, tablet: false },
+  { name: "Embedded Linux", cluster: "top-left", layer: 2, x: 18, y: 10, mobile: true, tablet: true },
 
-  // --- TOP RIGHT CLUSTER ---
+  // --- TOP RIGHT CLUSTER --- (Whitespace above right column photo, X: 72-87%, Y: 7-20%)
   { name: "Generative AI", cluster: "top-right", layer: 2, x: 80, y: 11, mobile: true, tablet: true },
-  { name: "Machine Learning", cluster: "top-right", layer: 1, x: 72, y: 15, mobile: false, tablet: true },
-  { name: "Deep Learning", cluster: "top-right", layer: 0, x: 84, y: 17, mobile: true, tablet: true },
-  { name: "LLMs", cluster: "top-right", layer: 2, x: 76, y: 19, mobile: true, tablet: true },
-  { name: "NLP", cluster: "top-right", layer: 0, x: 70, y: 9, mobile: false, tablet: true },
-  { name: "AI Agents", cluster: "top-right", layer: 1, x: 86, y: 13, mobile: false, tablet: true },
-  { name: "OpenAI APIs", cluster: "top-right", layer: 2, x: 78, y: 7, mobile: false, tablet: false },
-  { name: "Model Evaluation", cluster: "top-right", layer: 0, x: 82, y: 21, mobile: false, tablet: false },
+  { name: "Machine Learning", cluster: "top-right", layer: 2, x: 72, y: 15, mobile: false, tablet: true },
+  { name: "Deep Learning", cluster: "top-right", layer: 1, x: 87, y: 16, mobile: true, tablet: true },
+  { name: "LLMs", cluster: "top-right", layer: 1, x: 76, y: 7, mobile: true, tablet: true },
+  { name: "NLP", cluster: "top-right", layer: 0, x: 82, y: 20, mobile: false, tablet: false },
 
-  // --- CENTER CLUSTER ---
-  { name: "LangChain", cluster: "center", layer: 2, x: 44, y: 17, mobile: false, tablet: true },
-  { name: "LangGraph", cluster: "center", layer: 1, x: 50, y: 23, mobile: false, tablet: true },
-  { name: "RAG", cluster: "center", layer: 0, x: 42, y: 27, mobile: true, tablet: true },
-  { name: "MCP", cluster: "center", layer: 2, x: 52, y: 15, mobile: false, tablet: true },
-  { name: "Prompt Engineering", cluster: "center", layer: 1, x: 45, y: 21, mobile: true, tablet: true },
-  { name: "Hugging Face", cluster: "center", layer: 0, x: 49, y: 29, mobile: false, tablet: false },
+  // --- CENTER RIGHT CLUSTER --- (Whitespace on far right margin beside photo, X: 91-93%, Y: 42-52%)
+  { name: "AI Agents", cluster: "center-right", layer: 2, x: 91, y: 42, mobile: true, tablet: true },
+  { name: "Next.js", cluster: "center-right", layer: 0, x: 93, y: 52, mobile: false, tablet: false },
 
-  // --- BOTTOM LEFT CLUSTER ---
-  { name: "Arduino", cluster: "bottom-left", layer: 2, x: 6, y: 80, mobile: true, tablet: true },
-  { name: "CAN Bus", cluster: "bottom-left", layer: 1, x: 16, y: 78, mobile: true, tablet: true },
-  { name: "SocketCAN", cluster: "bottom-left", layer: 0, x: 10, y: 86, mobile: false, tablet: true },
-  { name: "Firmware", cluster: "bottom-left", layer: 2, x: 20, y: 82, mobile: true, tablet: true },
-  { name: "IoT", cluster: "bottom-left", layer: 1, x: 4, y: 84, mobile: false, tablet: true },
-  { name: "Microcontrollers", cluster: "bottom-left", layer: 0, x: 14, y: 76, mobile: false, tablet: true },
-  { name: "C", cluster: "bottom-left", layer: 2, x: 8, y: 90, mobile: false, tablet: false },
-  { name: "Embedded C", cluster: "bottom-left", layer: 1, x: 18, y: 88, mobile: false, tablet: false },
+  // --- BOTTOM LEFT CLUSTER --- (Whitespace below left column CTAs, X: 4-12%, Y: 84-92%)
+  { name: "C", cluster: "bottom-left", layer: 0, x: 4, y: 88, mobile: false, tablet: false },
+  { name: "Embedded C", cluster: "bottom-left", layer: 0, x: 12, y: 92, mobile: false, tablet: true },
+  { name: "Firmware", cluster: "bottom-left", layer: 1, x: 8, y: 84, mobile: false, tablet: true },
 
-  // --- BOTTOM RIGHT CLUSTER ---
-  { name: "PostgreSQL", cluster: "bottom-right", layer: 2, x: 82, y: 78, mobile: true, tablet: true },
-  { name: "MongoDB", cluster: "bottom-right", layer: 1, x: 74, y: 82, mobile: false, tablet: true },
-  { name: "Qdrant", cluster: "bottom-right", layer: 0, x: 86, y: 84, mobile: true, tablet: true },
-  { name: "ChromaDB", cluster: "bottom-right", layer: 1, x: 70, y: 86, mobile: false, tablet: true },
-  { name: "Automation", cluster: "bottom-right", layer: 0, x: 78, y: 76, mobile: false, tablet: true },
-  { name: "System Design", cluster: "bottom-right", layer: 2, x: 84, y: 90, mobile: true, tablet: true },
-  { name: "React", cluster: "bottom-right", layer: 1, x: 72, y: 88, mobile: false, tablet: false },
-  { name: "Next.js", cluster: "bottom-right", layer: 2, x: 76, y: 80, mobile: false, tablet: false },
-  { name: "TypeScript", cluster: "bottom-right", layer: 0, x: 80, y: 86, mobile: false, tablet: false },
-  { name: "JavaScript", cluster: "bottom-right", layer: 1, x: 68, y: 78, mobile: false, tablet: false },
-  { name: "Django", cluster: "bottom-right", layer: 0, x: 78, y: 92, mobile: false, tablet: false },
-  { name: "WebSockets", cluster: "bottom-right", layer: 1, x: 74, y: 74, mobile: false, tablet: false },
-
-  // --- EDGE CLUSTER ---
-  { name: "Solidity", cluster: "edge-left", layer: 2, x: 2, y: 43, mobile: true, tablet: true },
-  { name: "Foundry", cluster: "edge-left", layer: 1, x: 4, y: 53, mobile: false, tablet: true },
-  { name: "Smart Contracts", cluster: "edge-left", layer: 0, x: 1, y: 63, mobile: false, tablet: true },
-  { name: "Blockchain", cluster: "edge-right", layer: 2, x: 91, y: 43, mobile: true, tablet: true },
-  { name: "Web3", cluster: "edge-right", layer: 1, x: 93, y: 53, mobile: true, tablet: true },
-  { name: "Prediction Markets", cluster: "edge-right", layer: 0, x: 90, y: 63, mobile: false, tablet: true },
+  // --- BOTTOM RIGHT CLUSTER --- (Whitespace below right column photo, X: 70-86%, Y: 85-94%)
+  { name: "IoT", cluster: "bottom-right", layer: 0, x: 70, y: 86, mobile: false, tablet: false },
+  { name: "Arduino", cluster: "bottom-right", layer: 0, x: 78, y: 90, mobile: false, tablet: true },
+  { name: "CAN Bus", cluster: "bottom-right", layer: 1, x: 86, y: 85, mobile: false, tablet: true },
+  { name: "Microcontrollers", cluster: "bottom-right", layer: 0, x: 82, y: 94, mobile: false, tablet: false },
 ];
 
 export default function HeroFloatingSkills() {
   const [device, setDevice] = useState<"mobile" | "tablet" | "desktop">("desktop");
   const { scrollY } = useScroll();
 
-  // Parallax multipliers (Far: 0.2, Mid: 0.5, Front: 0.8)
-  // Scale down multipliers on tablet/mobile to preserve UI clarity
+  // Parallax multipliers reduced by 25% (Far: 0.15, Mid: 0.375, Front: 0.6)
   const speedFactor = useMemo(() => {
     return device === "mobile" ? 0.2 : device === "tablet" ? 0.5 : 1.0;
   }, [device]);
 
-  const farY = useTransform(scrollY, (v) => -v * 0.2 * speedFactor);
-  const midY = useTransform(scrollY, (v) => -v * 0.5 * speedFactor);
-  const frontY = useTransform(scrollY, (v) => -v * 0.8 * speedFactor);
+  const farY = useTransform(scrollY, (v) => -v * 0.15 * speedFactor);
+  const midY = useTransform(scrollY, (v) => -v * 0.375 * speedFactor);
+  const frontY = useTransform(scrollY, (v) => -v * 0.6 * speedFactor);
 
   const smoothFarY = useSpring(farY, { stiffness: 80, damping: 25 });
   const smoothMidY = useSpring(midY, { stiffness: 80, damping: 25 });
@@ -316,7 +286,7 @@ export default function HeroFloatingSkills() {
   }, []);
 
   // Filter skills proportionally:
-  // Desktop: 100% (48), Tablet: ~70% (35), Mobile: ~35% (17)
+  // Desktop: 18 bubbles, Tablet: 12 bubbles (~66%), Mobile: 6 bubbles (~33%)
   const filteredSkills = useMemo(() => {
     return skillsData.filter((skill) => {
       if (device === "mobile") return skill.mobile;
