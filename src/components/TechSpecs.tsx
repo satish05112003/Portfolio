@@ -143,7 +143,7 @@ export default function TechSpecs() {
           <GlassCard className="p-6 text-center cursor-default" spotlightColor="rgba(0, 105, 140, 0.08)">
             <span className="block font-mono text-[9px] text-[#00698c] uppercase tracking-wider mb-2">SYSTEMS REGISTERED</span>
             <span className="text-3xl sm:text-4xl font-mono font-bold text-white block">
-              <Counter value={12} suffix="" />
+              <Counter value={13} suffix="" />
             </span>
             <span className="text-xs text-[#d7d7d7]/50 font-light mt-1 block">Autonomous Builds</span>
           </GlassCard>

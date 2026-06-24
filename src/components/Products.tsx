@@ -28,6 +28,18 @@ import {
 // Project dossier definitions mapping to dynamic JSON contents
 const projectMatchOrder = [
   {
+    name: "Vehicle Health Monitor",
+    iconType: "car",
+    problemSolved: "Simulating and diagnosing faults across multiple vehicle ECUs is difficult without access to real automotive hardware and CAN networks.",
+    features: [
+      "Multi-ECU Simulation & Real-Time CAN Bus Monitoring",
+      "Interactive SVG Digital Twin & Vehicle Health Scoring",
+      "Fault Injection, Diagnostics & UDS Diagnostic Console",
+      "Safety Lockout & Automated Unit/Integration Testing"
+    ],
+    impact: "Successfully simulated real-time fault diagnostics and visual monitoring for 6 interconnected vehicle ECUs.",
+  },
+  {
     name: "Polymarket AI Trading Agent",
     iconType: "robot",
     problemSolved: "High latency and prediction inaccuracy in high-frequency directional price betting markets.",
@@ -180,6 +192,192 @@ function ProjectDiagram({ index }: { index: number }) {
     case 0:
       return (
         <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
+          {/* Subtle tech grid background */}
+          <line x1="20" y1="10" x2="20" y2="150" strokeDasharray="1,4" stroke="#d7d7d7" strokeOpacity="0.08" />
+          <line x1="40" y1="10" x2="40" y2="150" strokeDasharray="1,4" stroke="#d7d7d7" strokeOpacity="0.08" />
+          <line x1="60" y1="10" x2="60" y2="150" strokeDasharray="1,4" stroke="#d7d7d7" strokeOpacity="0.08" />
+          <line x1="80" y1="10" x2="80" y2="150" strokeDasharray="1,4" stroke="#d7d7d7" strokeOpacity="0.08" />
+          <line x1="100" y1="10" x2="100" y2="150" strokeDasharray="1,4" stroke="#d7d7d7" strokeOpacity="0.08" />
+          <line x1="120" y1="10" x2="120" y2="150" strokeDasharray="1,4" stroke="#d7d7d7" strokeOpacity="0.08" />
+          <line x1="140" y1="10" x2="140" y2="150" strokeDasharray="1,4" stroke="#d7d7d7" strokeOpacity="0.08" />
+          
+          {/* Detailed top-down sedan blueprint outline */}
+          <path
+            d="M 62 22 Q 80 16 98 22 Q 102 26 102 34 L 102 46 Q 104 50 104 58 L 102 110 Q 104 116 102 124 L 102 134 Q 98 139 80 139 Q 62 139 58 134 L 58 124 Q 56 116 58 110 L 58 58 Q 56 50 58 46 L 58 34 Q 58 26 62 22 Z"
+            stroke="#d7d7d7"
+            strokeWidth="1.2"
+            strokeOpacity="0.35"
+            fill="rgba(41, 40, 35, 0.2)"
+          />
+          {/* Windshield */}
+          <path d="M 64 48 Q 80 43 96 48 Q 93 56 80 56 Q 67 56 64 48 Z" stroke="#d7d7d7" strokeWidth="0.8" strokeOpacity="0.2" />
+          {/* Fenders / tires */}
+          <rect x="53" y="30" width="5" height="14" rx="1.5" stroke="#d7d7d7" strokeWidth="0.8" strokeOpacity="0.25" fill="#292823" />
+          <rect x="102" y="30" width="5" height="14" rx="1.5" stroke="#d7d7d7" strokeWidth="0.8" strokeOpacity="0.25" fill="#292823" />
+          <rect x="53" y="110" width="5" height="14" rx="1.5" stroke="#d7d7d7" strokeWidth="0.8" strokeOpacity="0.25" fill="#292823" />
+          <rect x="102" y="110" width="5" height="14" rx="1.5" stroke="#d7d7d7" strokeWidth="0.8" strokeOpacity="0.25" fill="#292823" />
+
+          {/* CAN Bus backbone wires (CAN High, CAN Low) */}
+          <line x1="78" y1="26" x2="78" y2="128" stroke="#00698c" strokeWidth="0.8" strokeOpacity="0.4" />
+          <line x1="82" y1="26" x2="82" y2="128" stroke="#00698c" strokeWidth="0.8" strokeOpacity="0.4" />
+          <motion.line
+            x1="78" y1="26" x2="78" y2="128"
+            stroke="#00698c" strokeWidth="1"
+            strokeDasharray="6, 12"
+            animate={{ strokeDashoffset: [0, -18] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+          />
+          <motion.line
+            x1="82" y1="26" x2="82" y2="128"
+            stroke="#00698c" strokeWidth="1"
+            strokeDasharray="6, 12"
+            animate={{ strokeDashoffset: [0, 18] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+          />
+
+          {/* CAN stubs connecting ECUs to backbone */}
+          <line x1="60" y1="46" x2="78" y2="46" stroke="#00698c" strokeWidth="0.8" strokeOpacity="0.4" />
+          <line x1="100" y1="46" x2="82" y2="46" stroke="#00698c" strokeWidth="0.8" strokeOpacity="0.4" />
+          <line x1="60" y1="106" x2="78" y2="106" stroke="#00698c" strokeWidth="0.8" strokeOpacity="0.4" />
+          <line x1="100" y1="106" x2="82" y2="106" stroke="#00698c" strokeWidth="0.8" strokeOpacity="0.4" />
+
+          {/* Telemetry packet animations along CAN network */}
+          <circle r="1" fill="#00698c">
+            <animateMotion dur="2.5s" repeatCount="indefinite" path="M 80 30 L 78 30 L 78 76 L 80 76" />
+          </circle>
+          <circle r="1" fill="#d7d7d7">
+            <animateMotion dur="3s" repeatCount="indefinite" path="M 60 46 L 78 46 L 78 106 L 60 106" />
+          </circle>
+          <circle r="1" fill="#00698c">
+            <animateMotion dur="2.2s" repeatCount="indefinite" path="M 100 106 L 82 106 L 82 46 L 100 46" />
+          </circle>
+          <circle r="1" fill="#d7d7d7">
+            <animateMotion dur="3.5s" repeatCount="indefinite" path="M 80 76 L 82 76 L 82 30 L 80 30" />
+          </circle>
+
+          {/* ECU Nodes (Concentric circles with rotating gear-like status indicator) */}
+          
+          {/* Engine ECU (80, 30) */}
+          <circle cx="80" cy="30" r="4.5" fill="#080807" stroke="#00698c" strokeWidth="1" />
+          <circle cx="80" cy="30" r="1.5" fill="#00698c" />
+          <motion.circle
+            cx="80" cy="30" r="7.5"
+            stroke="#00698c" strokeWidth="0.5" strokeDasharray="2,2"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+            className="origin-center"
+            style={{ transformOrigin: "80px 30px" }}
+          />
+
+          {/* ABS ECU (60, 46) */}
+          <circle cx="60" cy="46" r="4" fill="#080807" stroke="#d7d7d7" strokeWidth="1" strokeOpacity="0.5" />
+          <circle cx="60" cy="46" r="1.2" fill="#d7d7d7" fillOpacity="0.6" />
+          <motion.circle
+            cx="60" cy="46" r="6.5"
+            stroke="#d7d7d7" strokeWidth="0.4" strokeDasharray="2,2" strokeOpacity="0.5"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
+            className="origin-center"
+            style={{ transformOrigin: "60px 46px" }}
+          />
+
+          {/* Brake ECU (100, 46) */}
+          <circle cx="100" cy="46" r="4" fill="#080807" stroke="#d7d7d7" strokeWidth="1" strokeOpacity="0.5" />
+          <circle cx="100" cy="46" r="1.2" fill="#d7d7d7" fillOpacity="0.6" />
+          <motion.circle
+            cx="100" cy="46" r="6.5"
+            stroke="#d7d7d7" strokeWidth="0.4" strokeDasharray="2,2" strokeOpacity="0.5"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+            className="origin-center"
+            style={{ transformOrigin: "100px 46px" }}
+          />
+
+          {/* Airbag ECU (80, 76) */}
+          <circle cx="80" cy="76" r="4.5" fill="#080807" stroke="#00698c" strokeWidth="1" />
+          <circle cx="80" cy="76" r="1.5" fill="#00698c" />
+          <motion.circle
+            cx="80" cy="76" r="7.5"
+            stroke="#00698c" strokeWidth="0.5" strokeDasharray="2,2"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            className="origin-center"
+            style={{ transformOrigin: "80px 76px" }}
+          />
+
+          {/* Fuel ECU (60, 106) */}
+          <circle cx="60" cy="106" r="4" fill="#080807" stroke="#d7d7d7" strokeWidth="1" strokeOpacity="0.5" />
+          <circle cx="60" cy="106" r="1.2" fill="#d7d7d7" fillOpacity="0.6" />
+          <motion.circle
+            cx="60" cy="106" r="6.5"
+            stroke="#d7d7d7" strokeWidth="0.4" strokeDasharray="2,2" strokeOpacity="0.5"
+            animate={{ rotate: 360 }}
+            transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+            className="origin-center"
+            style={{ transformOrigin: "60px 106px" }}
+          />
+
+          {/* Battery ECU (100, 106) */}
+          <circle cx="100" cy="106" r="4" fill="#080807" stroke="#d7d7d7" strokeWidth="1" strokeOpacity="0.5" />
+          <circle cx="100" cy="106" r="1.2" fill="#d7d7d7" fillOpacity="0.6" />
+          <motion.circle
+            cx="100" cy="106" r="6.5"
+            stroke="#d7d7d7" strokeWidth="0.4" strokeDasharray="2,2" strokeOpacity="0.5"
+            animate={{ rotate: -360 }}
+            transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+            className="origin-center"
+            style={{ transformOrigin: "100px 106px" }}
+          />
+
+          {/* ECU Labels */}
+          <text x="80" y="19" fill="#d7d7d7" className="font-mono text-[4.5px] font-bold" textAnchor="middle">ENG ECU</text>
+          <text x="49" y="48" fill="#d7d7d7" className="font-mono text-[4px]" textAnchor="middle">ABS</text>
+          <text x="111" y="48" fill="#d7d7d7" className="font-mono text-[4px]" textAnchor="middle">BRK</text>
+          <text x="80" y="66" fill="#d7d7d7" className="font-mono text-[4px]" textAnchor="middle">SRS</text>
+          <text x="49" y="108" fill="#d7d7d7" className="font-mono text-[4px]" textAnchor="middle">FUEL</text>
+          <text x="111" y="108" fill="#d7d7d7" className="font-mono text-[4px]" textAnchor="middle">BMS</text>
+
+          {/* Cycling Softly Animated Labels (6 ECU NETWORK, REAL-TIME DIAGNOSTICS, CAN BUS TELEMETRY) */}
+          <g>
+            <motion.text
+              x="80"
+              y="152"
+              fill="#00698c"
+              className="font-mono text-[5.2px] font-bold tracking-wider"
+              textAnchor="middle"
+              animate={{ opacity: [0, 1, 1, 0, 0, 0, 0] }}
+              transition={{ duration: 9, repeat: Infinity, times: [0, 0.05, 0.28, 0.33, 0.34, 0.95, 1], ease: "easeInOut" }}
+            >
+              6 ECU NETWORK
+            </motion.text>
+            <motion.text
+              x="80"
+              y="152"
+              fill="#d7d7d7"
+              className="font-mono text-[5.2px] font-bold tracking-wider"
+              textAnchor="middle"
+              animate={{ opacity: [0, 0, 0, 1, 1, 0, 0] }}
+              transition={{ duration: 9, repeat: Infinity, times: [0, 0.33, 0.38, 0.61, 0.66, 0.67, 1], ease: "easeInOut" }}
+            >
+              REAL-TIME DIAGNOSTICS
+            </motion.text>
+            <motion.text
+              x="80"
+              y="152"
+              fill="#00698c"
+              className="font-mono text-[5.2px] font-bold tracking-wider"
+              textAnchor="middle"
+              animate={{ opacity: [0, 0, 0, 0, 0, 1, 1] }}
+              transition={{ duration: 9, repeat: Infinity, times: [0, 0.66, 0.71, 0.94, 0.99, 1], ease: "easeInOut" }}
+            >
+              CAN BUS TELEMETRY
+            </motion.text>
+          </g>
+        </svg>
+      );
+    case 1:
+      return (
+        <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
           <path d="M 20 80 Q 50 20 80 80 T 140 80" stroke="#292823" strokeWidth="2" />
           <motion.path
             initial={shouldReduceMotion ? { pathLength: 1 } : { pathLength: 0 }}
@@ -201,7 +399,7 @@ function ProjectDiagram({ index }: { index: number }) {
           <text x="80" y="122" fill="#00698c" className="font-mono text-[5px] uppercase tracking-wider" textAnchor="middle">AUC prediction: 0.9501</text>
         </svg>
       );
-    case 1:
+    case 2:
       return (
         <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
           <circle cx="80" cy="80" r="45" stroke="#292823" strokeWidth="5" />
@@ -225,7 +423,7 @@ function ProjectDiagram({ index }: { index: number }) {
           <text x="80" y="90" fill="#00698c" className="font-mono text-[6px] tracking-wider" textAnchor="middle">TELEMETRY LOOP ACTIVE</text>
         </svg>
       );
-    case 2:
+    case 3:
       return (
         <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
           <rect x="15" y="45" width="35" height="25" rx="3" stroke="#292823" />
@@ -251,7 +449,7 @@ function ProjectDiagram({ index }: { index: number }) {
           <text x="80" y="125" fill="#d7d7d7" className="font-mono text-[5px]" textAnchor="middle">INLINE DOM CLASSIFIER ACTIVE</text>
         </svg>
       );
-    case 3:
+    case 4:
       return (
         <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
           <rect x="15" y="25" width="40" height="20" rx="2" stroke="#292823" />
@@ -273,7 +471,7 @@ function ProjectDiagram({ index }: { index: number }) {
           <text x="122.5" y="70" fill="#00698c" className="font-mono text-[3.5px]" textAnchor="middle">LATENCY: &lt;1MS</text>
         </svg>
       );
-    case 4:
+    case 5:
       return (
         <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
           <line x1="40" y1="20" x2="40" y2="140" stroke="#292823" strokeWidth="2" />
@@ -322,7 +520,7 @@ function ProjectDiagram({ index }: { index: number }) {
           <text x="80" y="140" fill="#00698c" className="font-mono text-[4.5px] uppercase tracking-wider" textAnchor="middle">35% Wait Reduction</text>
         </svg>
       );
-    case 5:
+    case 6:
       return (
         <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
           <circle cx="80" cy="50" r="16" stroke="#00698c" strokeWidth="1.5" />
@@ -346,7 +544,7 @@ function ProjectDiagram({ index }: { index: number }) {
           <text x="120" y="134" fill="#d7d7d7" className="font-mono text-[4.5px]" textAnchor="middle">MERCHANT 02</text>
         </svg>
       );
-    case 6:
+    case 7:
       return (
         <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
           <rect x="25" y="25" width="110" height="110" rx="3" stroke="#292823" />
@@ -363,7 +561,7 @@ function ProjectDiagram({ index }: { index: number }) {
           <text x="80" y="127" fill="#00698c" className="font-mono text-[4.5px]" textAnchor="middle">LIQUIDITY DEPTH MATCHED</text>
         </svg>
       );
-    case 7:
+    case 8:
       return (
         <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
           <circle cx="80" cy="80" r="30" stroke="#292823" />
@@ -379,7 +577,7 @@ function ProjectDiagram({ index }: { index: number }) {
           <text x="80" y="87" fill="#00698c" className="font-mono text-[5px] uppercase font-bold" textAnchor="middle">GRADE: 98% TRUST</text>
         </svg>
       );
-    case 8:
+    case 9:
       return (
         <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
           <rect x="55" y="15" width="50" height="130" rx="3" stroke="#292823" />
@@ -407,7 +605,7 @@ function ProjectDiagram({ index }: { index: number }) {
           <text x="80" y="132" fill="#d7d7d7" className="font-mono text-[4px]" textAnchor="middle">PEDESTRIAN OVERRIDE</text>
         </svg>
       );
-    case 9:
+    case 10:
       return (
         <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
           <motion.path
@@ -436,7 +634,7 @@ function ProjectDiagram({ index }: { index: number }) {
           <text x="80" y="133" fill="#00698c" className="font-mono text-[4.5px]" textAnchor="middle">EMOTION MATRIX LOADED</text>
         </svg>
       );
-    case 10:
+    case 11:
       return (
         <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
           <rect x="15" y="30" width="36" height="40" rx="2" stroke="#292823" />
@@ -459,7 +657,7 @@ function ProjectDiagram({ index }: { index: number }) {
           <text x="80" y="112" fill="#d7d7d7" className="font-mono text-[4.5px]" textAnchor="middle">STORYBOARD EXPORT TIMELINE</text>
         </svg>
       );
-    case 11:
+    case 12:
       return (
         <svg className="w-full h-full stroke-white/5 fill-none" viewBox="0 0 160 160">
           <rect x="25" y="25" width="50" height="50" rx="1" stroke="#292823" />
@@ -493,6 +691,7 @@ const getProjectIcon = (type: string) => {
     case "chart": return <TrendUp className="w-5 h-5 text-[#00698c]" />;
     case "key": return <Key className="w-5 h-5 text-[#00698c]" />;
     case "traffic": return <Car className="w-5 h-5 text-[#00698c]" />;
+    case "car": return <Car className="w-5 h-5 text-[#00698c]" />;
     case "speaker": return <SpeakerHigh className="w-5 h-5 text-[#00698c]" />;
     case "image": return <ImageIcon className="w-5 h-5 text-[#00698c]" />;
     case "brackets": return <Code className="w-5 h-5 text-[#00698c]" />;
@@ -595,7 +794,7 @@ function ProductCard({ proj, index }: ProductCardProps) {
                   <div>
                     <span className="block text-[10px] font-mono text-[#d7d7d7]/40 uppercase tracking-wider">Key Specifications</span>
                     <ul className="text-xs text-[#d7d7d7]/70 space-y-1 mt-1.5 font-light">
-                      {proj.features.slice(0, 2).map((feat: string, fIdx: number) => (
+                      {proj.features.slice(0, 4).map((feat: string, fIdx: number) => (
                         <li key={fIdx} className="flex items-center gap-1.5">
                           <span className="w-1.5 h-1.5 rounded-full bg-[#00698c] shrink-0" />
                           <span className="truncate">{feat}</span>
@@ -668,6 +867,7 @@ export default function Products() {
     );
 
     const projectMetrics = [
+      { value: 6, label: "ECU Network" },
       { value: 95, label: "% AUC Prediction" },
       { value: 800, label: "ms Loop Latency" },
       { value: 96, label: "% NLP Classifier Acc" },

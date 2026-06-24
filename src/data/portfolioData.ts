@@ -2,6 +2,16 @@ import { ProjectData, SkillData, ExperienceData, EducationData, AchievementData 
 
 const cleanProjects: ProjectData[] = [
   {
+    id: "vehicle-health-monitor",
+    project_name: "Vehicle Health Monitor",
+    description: "Built an Automotive Digital Twin and Vehicle Diagnostics Platform that simulates six ECUs communicating over a virtual CAN Bus. The system provides real-time health monitoring, fault injection, CAN telemetry visualization, safety diagnostics, and an interactive SVG-based vehicle dashboard that visually highlights affected subsystems during failures.",
+    tech_stack: ["C", "Embedded Linux", "SocketCAN", "CAN Bus", "Next.js", "React", "TypeScript", "Tailwind CSS", "SVG", "Framer Motion", "Zustand", "CMake", "CTest"],
+    project_url: "https://github.com/satish05112003/vehicle-health-monitor",
+    github_url: "https://github.com/satish05112003/vehicle-health-monitor",
+    start_date: null,
+    end_date: null,
+  },
+  {
     id: "17293b06-1283-4cb5-8778-2a8f06e1766e",
     project_name: "Polymarket AI Trading Agent",
     description: "Built a real-time BTC trading engine for Polymarket using live Binance WebSocket price data and short-term market prediction models. Developed a backend system with live orderbook tracking, WebSocket communication, risk management, and replay/backtesting features using Python and aiohttp. Used XGBoost, LightGBM, Random Forest, and Logistic Regression models to predict BTC price movement in 5-minute markets, achieving AUC scores up to 0.9501. Implemented automated trade execution, live data processing, and real-time monitoring with dashboard and safety controls.",
