@@ -869,10 +869,35 @@ function ProductCard({ proj, index }: ProductCardProps) {
   );
 }
 
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? React.useLayoutEffect : React.useEffect;
+
 export default function Products() {
   const [activeCategory, setActiveCategory] = useState<"embedded" | "software">("software");
   const [isEmbeddedHovered, setIsEmbeddedHovered] = useState(false);
   const allProjects = portfolioData.projects;
+
+  const scrollPositionRef = React.useRef<number | null>(null);
+
+  useIsomorphicLayoutEffect(() => {
+    if (scrollPositionRef.current !== null && typeof window !== "undefined") {
+      const targetScroll = scrollPositionRef.current;
+      window.scrollTo(0, targetScroll);
+      
+      const rafId = requestAnimationFrame(() => {
+        window.scrollTo(0, targetScroll);
+        scrollPositionRef.current = null;
+      });
+      return () => cancelAnimationFrame(rafId);
+    }
+  }, [activeCategory]);
+
+  const handleCategoryChange = (category: "software" | "embedded") => {
+    if (typeof window !== "undefined") {
+      scrollPositionRef.current = window.scrollY;
+    }
+    setActiveCategory(category);
+  };
 
   // Resolve projects order dynamically matching JSON properties with fallback parameters
   const resolvedProjects = projectMatchOrder.map((matchItem, index) => {
@@ -939,7 +964,7 @@ export default function Products() {
 
         <div className="inline-flex flex-col sm:flex-row p-1 bg-[#292823]/15 backdrop-blur-xl border border-white/5 rounded-2xl sm:rounded-full w-full sm:w-auto shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
           <button
-            onClick={() => setActiveCategory("software")}
+            onClick={() => handleCategoryChange("software")}
             className={cn(
               "px-6 py-2.5 rounded-full text-xs font-mono tracking-wider uppercase transition-all duration-300 relative select-none cursor-pointer flex justify-center items-center gap-2",
               activeCategory === "software"
@@ -959,7 +984,7 @@ export default function Products() {
           
           <div className="relative inline-flex w-full sm:w-auto justify-center">
             <button
-              onClick={() => setActiveCategory("embedded")}
+              onClick={() => handleCategoryChange("embedded")}
               onMouseEnter={() => setIsEmbeddedHovered(true)}
               onMouseLeave={() => setIsEmbeddedHovered(false)}
               className={cn(
