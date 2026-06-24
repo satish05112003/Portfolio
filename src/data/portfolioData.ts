@@ -5,7 +5,7 @@ const cleanProjects: ProjectData[] = [
     id: "vehicle-health-monitor",
     project_name: "Vehicle Health Monitor",
     description: "Built an Automotive Digital Twin and Vehicle Diagnostics Platform that simulates six ECUs communicating over a virtual CAN Bus. The system provides real-time health monitoring, fault injection, CAN telemetry visualization, safety diagnostics, and an interactive SVG-based vehicle dashboard that visually highlights affected subsystems during failures.",
-    tech_stack: ["C", "Embedded Linux", "SocketCAN", "CAN Bus", "Next.js", "React", "TypeScript", "Tailwind CSS", "SVG", "Framer Motion", "Zustand", "CMake", "CTest"],
+    tech_stack: ["C", "Embedded Linux", "SocketCAN", "CAN Bus", "Vehicle Diagnostics", "Digital Twin", "Next.js", "React", "TypeScript", "Zustand", "CMake", "CTest"],
     project_url: "https://github.com/satish05112003/vehicle-health-monitor",
     github_url: "https://github.com/satish05112003/vehicle-health-monitor",
     start_date: null,
