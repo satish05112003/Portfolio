@@ -51,13 +51,13 @@ export default function BentoPillars() {
                     Embedded Systems & Electronics
                   </h3>
                   <p className="text-sm md:text-base text-[#d7d7d7]/80 font-light leading-relaxed mb-6">
-                    Developing bare-metal firmware, sensor integration configurations, and event-driven signals. Experienced with Intel 8085/8086 microprocessors, Arduino microcontrollers, and register-level control interfaces (GPIO, UART, SPI, I2C).
+                    Built bare-metal firmware using Embedded C, interfaced sensors with Arduino microcontrollers, and worked with Intel 8085/8086 microprocessors. Familiar with register-level programming, GPIO, UART, SPI, I2C, interrupts, timers, and RTOS fundamentals.
                   </p>
                 </div>
                 
                 {/* Hardware Spec Tags */}
                 <div className="flex flex-wrap gap-2">
-                  {["Embedded C", "Microcontrollers", "RTOS Concepts", "GPIO / SPI / I2C", "Assembly Programming"].map((tag) => (
+                  {["Embedded C", "Microcontrollers", "Intel 8085 / 8086", "GPIO / UART / SPI / I2C", "RTOS Basics", "Assembly Programming"].map((tag) => (
                     <span key={tag} className="px-2.5 py-1 text-[10px] font-mono bg-white/[0.03] text-[#d7d7d7]/70 rounded border border-white/5">
                       {tag}
                     </span>
@@ -110,20 +110,20 @@ export default function BentoPillars() {
                   <Brain className="w-5 h-5" />
                 </div>
                 <span className="font-mono text-xs tracking-wider uppercase text-[#00698c]">
-                  02 // COGNITIVE LAYER
+                  02 // SOFTWARE LAYER
                 </span>
               </div>
               <h3 className="text-xl md:text-2xl font-semibold text-white mb-3 tracking-tight">
-                AI & Machine Learning
+                Software Development & Machine Learning
               </h3>
               <p className="text-xs md:text-sm text-[#d7d7d7]/80 font-light leading-relaxed mb-6">
-                Training predictive ML models (XGBoost, LightGBM, Random Forest) and engineering pipelines for NLP, Large Language Model (LLM) agents, and prompt systems.
+                Developed predictive machine learning models using XGBoost, LightGBM, and Random Forest for data-driven applications. Experienced with Python, data preprocessing, feature engineering, model evaluation, REST API development, and backend application development using FastAPI.
               </p>
             </div>
             
             {/* Tech tags */}
             <div className="flex flex-wrap gap-1.5 mt-auto">
-              {["PyTorch", "Transformers", "XGBoost", "FastAPI", "NLP"].map((tag) => (
+              {["Python", "XGBoost", "LightGBM", "Random Forest", "FastAPI", "Pandas", "NumPy"].map((tag) => (
                 <span key={tag} className="px-2 py-0.5 text-[9px] font-mono bg-white/[0.03] text-[#d7d7d7]/60 rounded border border-white/5">
                   {tag}
                 </span>
@@ -150,13 +150,13 @@ export default function BentoPillars() {
                 Web3 & Blockchain
               </h3>
               <p className="text-xs md:text-sm text-[#d7d7d7]/80 font-light leading-relaxed mb-6">
-                Building on-chain wallet analytics, smart contract infrastructures using Solidity and Foundry, and Web3 integrations utilizing Wagmi and Viem libraries.
+                Built decentralized applications using Solidity and Foundry, with experience in smart contract development and Web3 integrations using Wagmi and Viem. Familiar with blockchain development workflows, wallet connectivity, and on-chain application architecture.
               </p>
             </div>
             
             {/* Tech tags */}
             <div className="flex flex-wrap gap-1.5 mt-auto">
-              {["Solidity", "Foundry", "Base Chain", "Wagmi / Viem", "EVM reputation"].map((tag) => (
+              {["Solidity", "Foundry", "Wagmi", "Viem", "Smart Contracts", "Web3"].map((tag) => (
                 <span key={tag} className="px-2 py-0.5 text-[9px] font-mono bg-white/[0.03] text-[#d7d7d7]/60 rounded border border-white/5">
                   {tag}
                 </span>
