@@ -666,7 +666,7 @@ export const portfolioData = {
     phone: '+91-6302394400',
     location: "kakinada, Andhra Pradesh, India",
     github: "https://github.com/satish05112003",
-    linkedin: "https://www.linkedin.com/in/satish-nagalla-25775b256/",
+    linkedin: "https://www.linkedin.com/in/nagallasatish/",
     role: 'Embedded Systems & AI Engineer',
     summary: "Recent B.Tech graduate in Electronics and Communication Engineering from NIT Agartala with a strong passion for technology, problem-solving, and building impactful products. Skilled in Python, C, Embedded C, Machine Learning, Generative AI, Large Language Models (LLMs), Embedded Systems, and Full-Stack Development.\n\nCompleted internship in Machine Learning, gaining hands-on experience in AI application development, model training, workflow automation, and intelligent systems. Built multiple projects across AI, blockchain, software, and embedded domains, including AI-powered job application agents, prediction market platforms, sentiment analysis systems, smart assistive devices, IoT-based safety solutions, and blockchain applications.\n\nPassionate about learning emerging technologies and applying them to solve real-world challenges. Strong foundation in software engineering, embedded systems, microcontrollers, machine learning, and modern AI frameworks. Continuously exploring Generative AI, AI Agents, RAG systems, Web3 technologies, and scalable backend architectures.\n\nA quick learner with strong analytical and problem-solving skills, seeking opportunities to contribute to innovative teams, work on cutting-edge technologies, and grow as an engineer while creating meaningful impact through technology.\n",
   },
