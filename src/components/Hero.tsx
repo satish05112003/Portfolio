@@ -8,7 +8,7 @@ import { ArrowRight, SealCheck } from "@phosphor-icons/react";
 import HeroFloatingSkills from "./HeroFloatingSkills";
 
 // Professional photo location
-const PROFILE_PHOTO_PATH = "/profile_photo.jpg";
+const PROFILE_PHOTO_PATH = "/199961.png";
 
 export default function Hero() {
   const shouldReduceMotion = useReducedMotion();
